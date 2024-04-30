@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:taches/pages/add_edit_page.dart';
+import 'package:taches/pages/home_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -7,65 +9,41 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+  // gerer la navigation entre le pages
+  Route<dynamic> generateRoute(RouteSettings settings) {
+    switch (settings.name) {
+      // vers la page Home
+      case HomePage.nameRoute:
+        return MaterialPageRoute(builder: (context) => const HomePage());
+      // vers la page AddEdit
+      case AddEditPage.nameRoute:
+        return MaterialPageRoute(builder: (context) => AddEditPage(id : settings.arguments as int));
+      // page demander non existante
+      default:
+        return MaterialPageRoute(
+          builder: (context) => Scaffold(
+            appBar: AppBar(
+              title: const Text("Erreur"),
+              centerTitle: true,
+            ),
+            body: const Center(
+              child: Text("Page inexistante"),
+            ),
+          ),
+        );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Taches',
       debugShowCheckedModeBanner: false,
+      initialRoute: HomePage.nameRoute,
+      onGenerateRoute: (settings) => generateRoute(settings),
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
-      ),
-      home: const MyHomePage(title: 'Mes Taches'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Center( 
-          child: Text(widget.title),
-        ),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
       ),
     );
   }

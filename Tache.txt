@@ -1,0 +1,6 @@
+DataBase
+Task(id,content,desc,isPrio,dateEnd,dateEdit,isFinish,Adress(number,typeStreet,nameStreet,code,city,long,lat))
+
+SharedPref
+- Mode-tri
+- pref tache fini
