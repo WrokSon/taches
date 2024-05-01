@@ -1,4 +1,4 @@
-import 'package:taches/models/address.dart';
+import 'package:latlong2/latlong.dart';
 
 class Task {
   late int id;
@@ -8,7 +8,8 @@ class Task {
   late bool isFinish;
   DateTime? dateEnd;
   DateTime? dateEdit;
-  Address? address;
+  String? address;
+  LatLng? position;
   Task(
       {int? id,
       required this.content,
@@ -17,8 +18,9 @@ class Task {
       bool? isFinish,
       this.dateEnd,
       this.dateEdit,
-      this.address}) {
-    this.id = id ?? 0;
+      this.address,
+      this.position}) {
+    this.id = id ?? -1;
     this.isFinish = isFinish ?? false;
     this.isPrio = isPrio ?? false;
   }

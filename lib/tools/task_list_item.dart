@@ -31,6 +31,7 @@ class _TaskListItem extends State<TaskListItem> {
         'ba77f47ae48dbf46b8bde6198b02142e'; // La clé API à demander sur OpenWeatherMap
     final apiUrl =
         'https://api.openweathermap.org/data/2.5/weather?q=$city&appid=$apiKey&units=metric&lang=fr';
+    // final apiUrl ="https://api.openweathermap.org/data/2.5/weather?lat=${_task.position!.latitude}&lon=${_task.position!.longitude}&appid=$apiKey&units=metric&lang=fr";
 
     final reponse = await http.get(Uri.parse(apiUrl));
 
@@ -51,14 +52,13 @@ class _TaskListItem extends State<TaskListItem> {
   // popup avec les informations supplementaire de la tache
   Future<void> _infoDialog() async {
     // pour la carte
-    double lat = _task.address != null ? _task.address!.lat : 0.0;
-    double long = _task.address != null ? _task.address!.long : 0.0;
+    final LatLng position = _task.position ?? const LatLng(0.0, 0.0);
 
-    if (_task.address != null) {
-      _obtenirMeteo(_task.address!.city);
+    if (_task.position != null) {
+      _obtenirMeteo("orleans");
     }
     // la section meteo
-    Widget sectionMeteo = Row(
+    final Widget sectionMeteo = Row(
       children: [
         Expanded(
           child: Column(
@@ -154,7 +154,7 @@ class _TaskListItem extends State<TaskListItem> {
                   width: 50,
                   child: FlutterMap(
                     options: MapOptions(
-                      initialCenter: LatLng(lat, long),
+                      initialCenter: position,
                       initialZoom: 7,
                     ),
                     children: [
@@ -166,7 +166,7 @@ class _TaskListItem extends State<TaskListItem> {
                       MarkerLayer(
                         markers: [
                           Marker(
-                              point: LatLng(lat, long),
+                              point: position,
                               child: const Icon(
                                 Icons.location_on,
                               ))
@@ -204,7 +204,8 @@ class _TaskListItem extends State<TaskListItem> {
     return GestureDetector(
       onTap: () {
         // direction pour modifier la tache
-        Navigator.pushNamed(context, AddEditPage.nameRoute, arguments: _task.id);
+        Navigator.pushNamed(context, AddEditPage.nameRoute,
+            arguments: _task.id);
       },
       onDoubleTap: () {
         // terminer la tache

@@ -29,6 +29,8 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   cached_network_image: any
+  geocoding: any
+  date_field: any
   flutter_map: any
   flutter_map_marker_cluster: any
   flutter:

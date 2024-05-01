@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:taches/models/task.dart';
 import 'package:taches/pages/add_edit_page.dart';
 import 'package:taches/tools/task_list_item.dart';
+import 'package:taches/tools/task_notifier.dart';
 
 class HomePage extends StatefulWidget {
   // route vers cette page
@@ -17,32 +17,31 @@ class HomePage extends StatefulWidget {
 // gestion de la page Home
 class _HomePage extends State<HomePage> {
   // constructuction de la page  de la page
-  final tasks = [
-    Task(content: "Manger ses pieds"),
-    Task(content: "Danser ce soir", dateEnd: DateTime.now()),
-    Task(content: "Coder ta maman", description: "je n'ai rien a racompter"),
-    Task(content: "Dormir a l'heure", isPrio: true),
-  ];
+
   @override
   Widget build(BuildContext context) {
     // TODO : recuperer le sharedPreference
+    final notifier = TaskNotifier.instance;
     return Scaffold(
       appBar: AppBar(
         title: const Text("Mes Taches"),
         centerTitle: true,
       ),
-      body: Container(
-        margin: const EdgeInsets.all(10),
-        child: ListView.builder(
-          itemBuilder: (context, index) => Dismissible(
-            key: UniqueKey(),
-            onDismissed: (direction) {
-              tasks.removeAt(index);
-            },
-            background: Container(color: Colors.red),
-            child: TaskListItem(task: tasks[index]),
+      body: ListenableBuilder(
+        listenable: notifier,
+        builder: (context, child) => Container(
+          margin: const EdgeInsets.all(10),
+          child: ListView.builder(
+            itemBuilder: (context, index) => Dismissible(
+              key: UniqueKey(),
+              onDismissed: (direction) {
+                notifier.removeTaskAt(index);
+              },
+              background: Container(color: Colors.red),
+              child: TaskListItem(task: notifier.tasks[index]),
+            ),
+            itemCount: notifier.tasks.length,
           ),
-          itemCount: tasks.length,
         ),
       ),
       floatingActionButton: FloatingActionButton(
