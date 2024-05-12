@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:taches/pages/add_edit_page.dart';
+import 'package:taches/pages/edit_page.dart';
 import 'package:taches/pages/home_page.dart';
 
 void main() {
@@ -16,8 +16,9 @@ class MyApp extends StatelessWidget {
       case HomePage.nameRoute:
         return MaterialPageRoute(builder: (context) => const HomePage());
       // vers la page AddEdit
-      case AddEditPage.nameRoute:
-        return MaterialPageRoute(builder: (context) => AddEditPage(id : settings.arguments as int));
+      case EditPage.nameRoute:
+        return MaterialPageRoute(
+            builder: (context) => EditPage(id: settings.arguments as String));
       // page demander non existante
       default:
         return MaterialPageRoute(

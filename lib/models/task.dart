@@ -1,7 +1,7 @@
 import 'package:latlong2/latlong.dart';
 
 class Task {
-  late int id;
+  String id;
   String content;
   String? description;
   late bool isPrio;
@@ -11,7 +11,7 @@ class Task {
   String? address;
   LatLng? position;
   Task(
-      {int? id,
+      {required this.id,
       required this.content,
       this.description,
       bool? isPrio,
@@ -20,7 +20,6 @@ class Task {
       this.dateEdit,
       this.address,
       this.position}) {
-    this.id = id ?? -1;
     this.isFinish = isFinish ?? false;
     this.isPrio = isPrio ?? false;
   }

@@ -3,7 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:taches/models/task.dart';
-import 'package:taches/pages/add_edit_page.dart';
+import 'package:taches/pages/edit_page.dart';
 import 'package:taches/tools/services.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:http/http.dart' as http;
@@ -204,7 +204,7 @@ class _TaskListItem extends State<TaskListItem> {
     return GestureDetector(
       onTap: () {
         // direction pour modifier la tache
-        Navigator.pushNamed(context, AddEditPage.nameRoute,
+        Navigator.pushNamed(context, EditPage.nameRoute,
             arguments: _task.id);
       },
       onDoubleTap: () {

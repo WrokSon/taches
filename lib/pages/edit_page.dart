@@ -5,31 +5,27 @@ import 'package:taches/models/task.dart';
 import 'package:taches/tools/services.dart';
 import 'package:taches/tools/task_notifier.dart';
 
-class AddEditPage extends StatefulWidget {
-  final int id;
+class EditPage extends StatefulWidget {
+  final String id;
   // route vers cette page
-  static const String nameRoute = "/addEdit";
+  static const String nameRoute = "/edit";
   // constructeur
-  const AddEditPage({super.key, required this.id});
+  const EditPage({super.key, required this.id});
 
   @override
-  State<AddEditPage> createState() => _AddEditPage(id);
+  State<EditPage> createState() => _EditPage(id);
 }
 
-class _AddEditPage extends State<AddEditPage> {
+class _EditPage extends State<EditPage> {
   late Task _task;
-  late bool _isAdding;
   // formulaire
   final _keyForm = GlobalKey<FormState>();
   final taskContentController = TextEditingController();
   final addrContentController = TextEditingController();
   final descriptionController = TextEditingController();
   final notifier = TaskNotifier.instance;
-  _AddEditPage(int id) {
-    _isAdding = id == -1;
-    _task = _isAdding
-        ? Task( content: "")
-        : notifier.tasks.firstWhere((element) => element.id == id);
+  _EditPage(String id) {
+    _task = notifier.tasks.firstWhere((element) => element.id == id);
   }
 
   @override
@@ -47,10 +43,11 @@ class _AddEditPage extends State<AddEditPage> {
     addrContentController.text = _task.address ?? "";
     descriptionController.text = _task.description ?? "";
     DateTime? dateEnd = _task.dateEnd;
-    LatLng? tempPostion;
+    bool isValideAddr = false;
+    // affichage
     return Scaffold(
       appBar: AppBar(
-        title: Text(_isAdding ? "Ajouter un note" : "Modifier"),
+        title: const Text("Modifier"),
         centerTitle: true,
       ),
       body: Container(
@@ -96,6 +93,14 @@ class _AddEditPage extends State<AddEditPage> {
                               hintText: "Ex: 5 rue jean-macé 45000 orléans",
                             ),
                             controller: addrContentController,
+                            validator: (value) {
+                              if (value != null &&
+                                  value.isNotEmpty &&
+                                  !isValideAddr) {
+                                return "Addresse invalide";
+                              }
+                              return null;
+                            },
                           ),
                         ],
                       ),
@@ -118,9 +123,7 @@ class _AddEditPage extends State<AddEditPage> {
                             autovalidateMode: AutovalidateMode.always,
                             mode: DateTimeFieldPickerMode.date,
                             onChanged: (DateTime? value) {
-                              setState(() {
-                                dateEnd = value!;
-                              });
+                              dateEnd = value;
                             },
                           ),
                         ],
@@ -151,7 +154,11 @@ class _AddEditPage extends State<AddEditPage> {
                 height: 50,
                 child: ElevatedButton(
                   onPressed: () async {
-                    // final addr = addrContentController.text;
+                    final addr = addrContentController.text;
+                    final tempPostion = await checkAddress(addr);
+                    if (tempPostion == null) {
+                      isValideAddr = false;
+                    }
                     if (_keyForm.currentState!.validate()) {
                       _task.content = taskContentController.text;
                       _task.address = addrContentController.text;
@@ -159,8 +166,7 @@ class _AddEditPage extends State<AddEditPage> {
                       _task.description = descriptionController.text;
                       _task.dateEnd = dateEnd;
                       _task.position = tempPostion;
-                      notifier.addEditTask(_task);
-                      print("object");
+                      notifier.editTask(_task);
                       Navigator.pop(context);
                     }
                   },

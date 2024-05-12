@@ -8,11 +8,13 @@ String dateToString(DateTime? date) {
 }
 
 Future<LatLng?> checkAddress(String? addr) async {
+  if (addr == null || addr.isEmpty) return null;
   try {
     // Géocodage de l'adresse
-    final List<Location> locations = await locationFromAddress(addr!);
+    final List<Location> locations = await locationFromAddress(addr);
+    print("$addr : ${locations.length}");
     // Vérification si des emplacements ont été trouvés
-    if (locations.isNotEmpty){
+    if (locations.isNotEmpty) {
       final Location location = locations.first;
       return LatLng(location.latitude, location.longitude);
     }
