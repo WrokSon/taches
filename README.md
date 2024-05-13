@@ -29,7 +29,7 @@ une application Flutter qui permet la gestion d’une liste de tâches
 
 ## Un petit truc en plus
 
-- On ne peut pas creer une tache avec le meme contenu
+- On ne peut pas creer une même tache
 - Si on fourni une adresse elle doit exister
 
 
