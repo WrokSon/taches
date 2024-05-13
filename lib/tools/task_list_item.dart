@@ -23,8 +23,7 @@ class _TaskListItem extends State<TaskListItem> {
   Widget build(BuildContext context) {
     final notifier = TaskNotifier.instance;
     // couleurs utils
-    Color? colorSubTitle = Colors.grey[500];
-    Color? colorIcon = _task.isFinish ? colorSubTitle : Colors.yellow;
+    Color? colorIcon = _task.isFinish ? getSubtitleColor() : Colors.yellow;
     return GestureDetector(
       onTap: () {
         // direction pour modifier la tache
@@ -61,12 +60,13 @@ class _TaskListItem extends State<TaskListItem> {
             ),
             Checkbox(
               value: _task.isFinish,
-              activeColor: colorSubTitle,
+              activeColor: getSubtitleColor(),
               onChanged: (value) {
                 setState(() {
                   _task.isFinish = value!;
                   notifier.editTask(_task);
-                  colorIcon = _task.isFinish ? colorSubTitle : Colors.yellow;
+                  colorIcon =
+                      _task.isFinish ? getSubtitleColor() : Colors.yellow;
                 });
               },
             ),
@@ -79,13 +79,13 @@ class _TaskListItem extends State<TaskListItem> {
                     style: TextStyle(
                       fontSize: 17,
                       fontWeight: FontWeight.bold,
-                      color: _task.isFinish ? colorSubTitle : Colors.black,
+                      color: _task.isFinish ? getSubtitleColor() : Colors.black,
                     ),
                   ),
                   Text(
                     dateToString(_task.dateEnd),
                     style: TextStyle(
-                      color: colorSubTitle,
+                      color: getSubtitleColor(),
                     ),
                   ),
                 ],
@@ -98,7 +98,7 @@ class _TaskListItem extends State<TaskListItem> {
               },
               icon: Icon(
                 Icons.info,
-                color: _task.isFinish ? colorSubTitle : Colors.grey[700],
+                color: _task.isFinish ? getSubtitleColor() : Colors.grey[700],
               ),
             ),
           ],

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/material.dart';
 import 'package:geocoder2/geocoder2.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -20,3 +21,7 @@ Future<LatLng?> checkAddress(String? addr) async {
     return null;
   }
 }
+
+Color getBackgroundColorButton() => Colors.blue;
+Color getTextColor() => Colors.black;
+Color? getSubtitleColor() => Colors.grey[500];

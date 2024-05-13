@@ -68,6 +68,11 @@ class _EditPage extends State<EditPage> {
                             const Text("Tache a faire"),
                             TextFormField(
                               decoration: const InputDecoration(
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Colors
+                                          .blue), // Couleur de la bordure lorsque le champ est en focus
+                                ),
                                 border: OutlineInputBorder(),
                                 hintText: "Ex: Avoir plus de 16",
                               ),
@@ -90,6 +95,11 @@ class _EditPage extends State<EditPage> {
                             const Text("Adresse"),
                             TextFormField(
                               decoration: const InputDecoration(
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Colors
+                                          .blue), // Couleur de la bordure lorsque le champ est en focus
+                                ),
                                 border: OutlineInputBorder(),
                                 hintText: "Ex: 5 rue jean-macé 45000 orléans",
                               ),
@@ -114,9 +124,15 @@ class _EditPage extends State<EditPage> {
                             const Text("Date de limite"),
                             DateTimeFormField(
                               decoration: const InputDecoration(
+                                fillColor: Color.fromARGB(255, 148, 199, 240),
                                 hintStyle: TextStyle(color: Colors.black45),
                                 errorStyle: TextStyle(color: Colors.redAccent),
                                 border: OutlineInputBorder(),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Colors
+                                          .blue), // Couleur de la bordure lorsque le champ est en focus
+                                ),
                                 suffixIcon: Icon(Icons.event_note),
                                 hintText: 'Choisir une date',
                               ),
@@ -139,6 +155,11 @@ class _EditPage extends State<EditPage> {
                             TextFormField(
                               maxLines: 5,
                               decoration: const InputDecoration(
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Colors
+                                          .blue), // Couleur de la bordure lorsque le champ est en focus
+                                ),
                                 border: OutlineInputBorder(),
                                 hintText: "laissé votre imagination",
                               ),
@@ -178,7 +199,18 @@ class _EditPage extends State<EditPage> {
                       Navigator.pop(context);
                     }
                   },
-                  child: const Text("Valider"),
+                  child: const Text(
+                    "Valider",
+                    style: TextStyle(
+                      color: Colors.black,
+                    ),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: getBackgroundColorButton(),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                  ),
                 ),
               ),
             ],

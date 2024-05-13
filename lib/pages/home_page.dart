@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:taches/models/tri_enum.dart';
+import 'package:taches/tools/services.dart';
 import 'package:taches/tools/task_list_item.dart';
 import 'package:taches/tools/task_notifier.dart';
 
@@ -53,29 +54,26 @@ class _HomePage extends State<HomePage> {
                               height: 50,
                               child: ElevatedButton(
                                 child: Text(
-                                  "Masquer les taches fini",
+                                  "Masquer les taches finis",
                                   style: TextStyle(
                                     fontSize: 11,
+                                    color: Colors.black,
                                   ),
                                 ),
                                 onPressed: () {
                                   notifier.withOutComplete =
                                       !notifier.withOutComplete;
                                 },
-                              ),
-                            ) /*Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Text("Masquer les taches fini : "),
-                                Checkbox(
-                                  value: notifier.withOutComplete,
-                                  onChanged: (value) {
-                                    notifier.withOutComplete = value!;
-                                  },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: notifier.withOutComplete
+                                      ? getSubtitleColor()
+                                      : getBackgroundColorButton(),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                  ),
                                 ),
-                              ],
-                            )*/
-                            ,
+                              ),
+                            ),
                           ),
                           SizedBox(width: 20),
                           Expanded(
@@ -100,6 +98,10 @@ class _HomePage extends State<HomePage> {
                                     ],
                                     decoration: const InputDecoration(
                                       border: OutlineInputBorder(),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: Colors.blue),
+                                      ),
                                     ),
                                     value: notifier.currentTri,
                                     onChanged: (value) async {
@@ -129,6 +131,7 @@ class _HomePage extends State<HomePage> {
                         ),
                       ),
                       Card(
+                        color: Colors.blue[100],
                         child: Container(
                           margin: EdgeInsets.all(10),
                           child: Expanded(
@@ -162,6 +165,10 @@ class _HomePage extends State<HomePage> {
                                       }
                                     },
                                     icon: const Icon(Icons.add),
+                                    style: ButtonStyle(
+                                        backgroundColor: MaterialStateColor
+                                            .resolveWith((states) =>
+                                                getBackgroundColorButton())),
                                   ),
                                 ],
                               ),
