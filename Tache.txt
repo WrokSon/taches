@@ -1,9 +1,2 @@
-DataBase
-Task(id,content,desc,isPrio,dateEnd,dateEdit,isFinish,Adress(number,typeStreet,nameStreet,code,city,long,lat))
-
-SharedPref
-- Mode-tri
-- pref tache fini
-
-
-clé api : AIzaSyAIJinBuERzfWLOUH97_-1DGelDlEhZyzg
+clé api openweathermap: ba77f47ae48dbf46b8bde6198b02142e
+clé api google: AIzaSyAIJinBuERzfWLOUH97_-1DGelDlEhZyzg
