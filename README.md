@@ -24,15 +24,27 @@ une application Flutter qui permet la gestion d’une liste de tâches
 - Une préférence de l’appli permet de dire comment les tâches terminées doivent apparaitre ou pas dans la liste. Si elle n’apparaissent pas dans la liste des tâches, un bouton doit être présent pour les exhiber
 
 ## Quelque racourcis
-- Double clique sur le
+- Double clique sur la tache pour la finir/reactiver
 - Glisser une tache pour la supprimer
 
 ## Un petit truc en plus
 
 - On ne peut pas creer une tache avec le meme contenu
 - Si on fourni une adresse elle doit exister
-- 
+
 
 ## API utilisé
 - Google Maps
+- openweathermap
+
+## Dependances
+- cached_network_image: ^3.3.1
+- date_field: ^5.0.1
+- flutter_map: ^3.0.0
+- cupertino_icons: ^1.0.6
+- http: ^0.13.6
+- uuid: ^4.4.0
+- geocoder2: ^1.4.0
+- google_maps_flutter: ^2.6.1
+- shared_preferences: ^2.0.0
 
