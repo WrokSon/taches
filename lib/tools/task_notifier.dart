@@ -27,6 +27,7 @@ class TaskNotifier with ChangeNotifier {
     // verifier toute les date
     _tasks.forEach((task) {
       if (!task.isDateNotPassed()) {
+        print("id:${task.id} content:${task.content}");
         task.isFinish = true;
       }
     });

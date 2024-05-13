@@ -48,7 +48,23 @@ class _HomePage extends State<HomePage> {
                       Row(
                         children: [
                           Expanded(
-                            child: Row(
+                            child: SizedBox(
+                              width: double.infinity,
+                              height: 50,
+                              child: ElevatedButton(
+                                child: Text(
+                                  "Masquer les taches fini",
+                                  style: TextStyle(
+                                    fontSize: 11,
+                                  ),
+                                ),
+                                onPressed: () {
+                                  notifier.withOutComplete =
+                                      !notifier.withOutComplete;
+                                },
+                              ),
+                            ) /*Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Text("Masquer les taches fini : "),
                                 Checkbox(
@@ -58,15 +74,19 @@ class _HomePage extends State<HomePage> {
                                   },
                                 ),
                               ],
-                            ),
+                            )*/
+                            ,
                           ),
+                          SizedBox(width: 20),
                           Expanded(
                             child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 Text("Tri : "),
                                 SizedBox(
+                                  height: 60,
                                   width:
-                                      200, // Ajout d'une largeur fixe au SizedBox
+                                      110, // Ajout d'une largeur fixe au SizedBox
                                   child: DropdownButtonFormField<Tri>(
                                     items: const [
                                       DropdownMenuItem(

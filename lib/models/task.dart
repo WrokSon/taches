@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class Task {
@@ -86,12 +85,8 @@ class Task {
       );
 
   // Méthode pour vérifier si la date n'est pas passée
-  bool isDateNotPassed() {
-    // Récupérer la date actuelle
-    DateTime currentDate = DateTime.now();
-    // Vérifier si la date d'échéance est définie et si elle est postérieure à la date actuelle
-    return dateEnd != null ? currentDate.isBefore(dateEnd!) : true;
-  }
+  bool isDateNotPassed() =>
+      dateEnd != null ? dateEnd!.isAfter(DateTime.now()) : true;
 
   // Méthode pour copier une liste de tâches
   static List<Task> copyList(List<Task> originalList) {

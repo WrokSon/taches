@@ -122,8 +122,8 @@ class _DetailPage extends State<DetailPage> {
       ),
       body: Container(
         margin: EdgeInsetsDirectional.symmetric(horizontal: 20),
+        alignment: Alignment.topCenter,
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const Text(
               'Tache',
@@ -133,58 +133,70 @@ class _DetailPage extends State<DetailPage> {
             const SizedBox(
               height: 10,
             ),
-            const Text(
-              'Date',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            Text(dateToString(widget.task.dateEnd)),
-            const SizedBox(
-              height: 10,
-            ),
-            const Text(
-              'Adresse',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            Text(
-              widget.task.address != null
-                  ? widget.task.address.toString()
-                  : "Pas d'adresse indiqué",
-            ),
-            const SizedBox(
-              height: 5,
-            ),
-            SizedBox(
-              height: 250,
-              width: 270,
-              child: GoogleMap(
-                mapType: MapType.hybrid,
-                initialCameraPosition: CameraPosition(
-                  target: postion, // Coordonnées du centre de la carte
-                  zoom: 10.0, // Niveau de zoom initial
+            Column(
+              children: [
+                const Text(
+                  'Date',
+                  style: TextStyle(fontWeight: FontWeight.bold),
                 ),
-                markers: {
-                  Marker(
-                    markerId: MarkerId(widget.task.content),
-                    position: postion,
-                  ),
-                }, // Liste de marqueurs à afficher sur la carte
-                onMapCreated: (GoogleMapController controller) {
-                  _controller.complete(controller);
-                },
-              ),
-            ),
-            SizedBox(
-              width: 270,
-              child: sectionMeteo,
+                Text(dateToString(widget.task.dateEnd)),
+              ],
             ),
             const SizedBox(
               height: 10,
             ),
-            const Text(
-              'Description',
-              style: TextStyle(fontWeight: FontWeight.bold),
+            Column(
+              children: [
+                const Text(
+                  'Adresse',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  widget.task.address != null
+                      ? widget.task.address.toString()
+                      : "Pas d'adresse indiqué",
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                SizedBox(
+                  height: 250,
+                  width: double.infinity,
+                  child: GoogleMap(
+                    mapType: MapType.hybrid,
+                    initialCameraPosition: CameraPosition(
+                      target: postion, // Coordonnées du centre de la carte
+                      zoom: 10.0, // Niveau de zoom initial
+                    ),
+                    markers: {
+                      Marker(
+                        markerId: MarkerId(widget.task.content),
+                        position: postion,
+                      ),
+                    }, // Liste de marqueurs à afficher sur la carte
+                    onMapCreated: (GoogleMapController controller) {
+                      _controller.complete(controller);
+                    },
+                  ),
+                ),
+                SizedBox(
+                  width: 270,
+                  child: sectionMeteo,
+                ),
+              ],
             ),
-            Text(widget.task.description ?? "Pas de description"),
+            const SizedBox(
+              height: 10,
+            ),
+            Column(
+              children: [
+                const Text(
+                  'Description',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                Text(widget.task.description ?? "Pas de description"),
+              ],
+            ),
           ],
         ),
       ),

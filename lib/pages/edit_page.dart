@@ -50,102 +50,105 @@ class _EditPage extends State<EditPage> {
         centerTitle: true,
       ),
       body: Container(
+        constraints: BoxConstraints.expand(),
         margin: const EdgeInsets.all(20),
         child: Form(
           key: _keyForm,
           child: Column(
             children: [
               Expanded(
-                child: Column(
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.only(bottom: 10),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text("Tache a faire"),
-                          TextFormField(
-                            decoration: const InputDecoration(
-                              border: OutlineInputBorder(),
-                              hintText: "Ex: Avoir plus de 16",
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.only(bottom: 10),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text("Tache a faire"),
+                            TextFormField(
+                              decoration: const InputDecoration(
+                                border: OutlineInputBorder(),
+                                hintText: "Ex: Avoir plus de 16",
+                              ),
+                              validator: (value) {
+                                if (value == null || value.trim().isEmpty) {
+                                  return "Tu dois ercire une tache";
+                                }
+                                return null;
+                              },
+                              controller: taskContentController,
                             ),
-                            validator: (value) {
-                              if (value == null || value.trim().isEmpty) {
-                                return "Tu dois ercire une tache";
-                              }
-                              return null;
-                            },
-                            controller: taskContentController,
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(bottom: 10),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text("Adresse"),
-                          TextFormField(
-                            decoration: const InputDecoration(
-                              border: OutlineInputBorder(),
-                              hintText: "Ex: 5 rue jean-macé 45000 orléans",
+                      Container(
+                        margin: const EdgeInsets.only(bottom: 10),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text("Adresse"),
+                            TextFormField(
+                              decoration: const InputDecoration(
+                                border: OutlineInputBorder(),
+                                hintText: "Ex: 5 rue jean-macé 45000 orléans",
+                              ),
+                              controller: addrContentController,
+                              validator: (value) {
+                                if (value != null &&
+                                    value.isNotEmpty &&
+                                    !isValideAddr) {
+                                  return "Addresse invalide";
+                                }
+                                return null;
+                              },
                             ),
-                            controller: addrContentController,
-                            validator: (value) {
-                              if (value != null &&
-                                  value.isNotEmpty &&
-                                  !isValideAddr) {
-                                return "Addresse invalide";
-                              }
-                              return null;
-                            },
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(bottom: 10),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text("Date de limite"),
-                          DateTimeFormField(
-                            decoration: const InputDecoration(
-                              hintStyle: TextStyle(color: Colors.black45),
-                              errorStyle: TextStyle(color: Colors.redAccent),
-                              border: OutlineInputBorder(),
-                              suffixIcon: Icon(Icons.event_note),
-                              hintText: 'Choisir une date',
+                      Container(
+                        margin: const EdgeInsets.only(bottom: 10),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text("Date de limite"),
+                            DateTimeFormField(
+                              decoration: const InputDecoration(
+                                hintStyle: TextStyle(color: Colors.black45),
+                                errorStyle: TextStyle(color: Colors.redAccent),
+                                border: OutlineInputBorder(),
+                                suffixIcon: Icon(Icons.event_note),
+                                hintText: 'Choisir une date',
+                              ),
+                              initialValue: dateEnd,
+                              autovalidateMode: AutovalidateMode.always,
+                              mode: DateTimeFieldPickerMode.date,
+                              onChanged: (DateTime? value) {
+                                dateEnd = value;
+                              },
                             ),
-                            initialValue: dateEnd,
-                            autovalidateMode: AutovalidateMode.always,
-                            mode: DateTimeFieldPickerMode.date,
-                            onChanged: (DateTime? value) {
-                              dateEnd = value;
-                            },
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(bottom: 10),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text("Description"),
-                          TextFormField(
-                            maxLines: 5,
-                            decoration: const InputDecoration(
-                              border: OutlineInputBorder(),
-                              hintText: "laissé votre imagination",
+                      Container(
+                        margin: const EdgeInsets.only(bottom: 10),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text("Description"),
+                            TextFormField(
+                              maxLines: 5,
+                              decoration: const InputDecoration(
+                                border: OutlineInputBorder(),
+                                hintText: "laissé votre imagination",
+                              ),
+                              controller: descriptionController,
                             ),
-                            controller: descriptionController,
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
               SizedBox(
@@ -169,6 +172,7 @@ class _EditPage extends State<EditPage> {
                               ? descriptionController.text.trim()
                               : null;
                       _task.dateEnd = dateEnd;
+                      _task.isFinish = false;
                       _task.position = tempPostion;
                       notifier.editTask(_task);
                       Navigator.pop(context);
