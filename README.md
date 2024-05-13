@@ -1,16 +1,38 @@
 # taches
 
-A new Flutter project.
+une application Flutter qui permet la gestion d’une liste de tâches
 
-## Getting Started
+## Fonctionalité
+- Saisie simple d’une phrase, après validation de la saisie, la tâche se retrouve dans la liste.
 
-This project is a starting point for a Flutter application.
+- Un clique sur la tâche permet de la proposer à la modification.
 
-A few resources to get you started if this is your first Flutter project:
+- Possibilité d’ajouter une description et une date d’échéance ainsi qu’une adresse. Ces informations s’affichent qd on demande le détail d’une tâche. Pour l’adresse, une carte doit s’afficher et indiquer le lieu (voir l’exemple du cours). Sous la carte doit apparaitre deux ou trois informations météo du moment pour le lieu (au moins température min/actuelle/max et une image d’illustration de cette météo : soleil, nuage, pluie, …​ voir l’exemple du cours).
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- Dans le cas d’une tâche datée, la date doit être visible dans la liste sous forme de sous-titre.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Un marqueur d’importance de la tâche doit être visible en face (un seul niveau d’importance : important/pas important).
+
+- Une poubelle également doit être visible en bout de tâche. La suppression se fait en cliquant et confirmant la suppression ou par glissement de la tâche vers la droite ou la gauche (au choix)
+
+- Le tri normal se fait par : l’importance de la tâche (flag d’importance) puis par la date de saisie ou de dernière modification
+
+- Le tri doit être possible à l’aide d’un bouton par date d’échénance (de la plus récente à la plus vielle, et en cas d’égalité, par ordre d’ajout ou modification).
+
+- Une tâche marquée terminée se retrouve en bas marquée comme tel (en grisée et case cochée). On peut décocher une tâche pour la retrouver dans la liste des tâches actives (selon le tri habituel, par date d’échéance d’abord, puis date modif sinon).
+
+- Une préférence de l’appli permet de dire comment les tâches terminées doivent apparaitre ou pas dans la liste. Si elle n’apparaissent pas dans la liste des tâches, un bouton doit être présent pour les exhiber
+
+## Quelque racourcis
+- Double clique sur le
+- Glisser une tache pour la supprimer
+
+## Un petit truc en plus
+
+- On ne peut pas creer une tache avec le meme contenu
+- Si on fourni une adresse elle doit exister
+- 
+
+## API utilisé
+- Google Maps
+
