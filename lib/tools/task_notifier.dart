@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:taches/models/my_data_base.dart';
 import 'package:taches/models/shared_preference.dart';
 import 'package:taches/models/task.dart';
 import 'package:taches/models/tri_enum.dart';
@@ -9,27 +10,17 @@ class TaskNotifier with ChangeNotifier {
   bool _withOutComplete = false;
   Tri _tri = Tri.NORMAL;
   final _sharedPref = SharedPreference();
-  List<Task> _tasks = [
-    Task(id: "0", content: "Manger ses pieds", isFinish: true),
-    Task(id: "1", content: "Danser ce soir", dateEnd: DateTime.now()),
-    Task(
-        id: "2",
-        content: "Coder ta maman",
-        description: "je n'ai rien a racompter"),
-    Task(
-        id: "3",
-        content: "Dormir a l'heure",
-        isPrio: true,
-        dateEnd: DateTime(2020, 2, 23),
-        address: "5 rue de tours 45000 orleans"),
-  ];
+  final _db = MyDataBase();
+  List<Task> _tasks = [];
   static final TaskNotifier instance = TaskNotifier._();
   TaskNotifier._();
 
-  void init() async {
+  Future<List<Task>> init() async {
     _tri = await _sharedPref.getTri();
     _withOutComplete = await _sharedPref.getShowIsFinish();
+    _tasks = await _db.tasks();
     notifyListeners();
+    return _tasks;
   }
 
   List<Task> get tasks {
@@ -78,6 +69,7 @@ class TaskNotifier with ChangeNotifier {
 
   // supprimer un element a la postion index et avertir les autres
   void removeTaskAt(int index) {
+    _db.deleteTask(_tasks[index].id);
     _tasks.removeAt(index);
     notifyListeners();
   }
@@ -95,13 +87,14 @@ class TaskNotifier with ChangeNotifier {
     Task task =
         Task(id: const Uuid().v4(), content: content, dateEdit: DateTime.now());
     _tasks.add(task);
+    _db.insertTask(task);
     notifyListeners();
   }
 
   // ajouter ou modifier une tache
   void editTask(Task task) {
     _tasks.firstWhere((element) => element.id == task.id).copyFrom(task);
+    _db.updateTask(task);
     notifyListeners();
-    print("je suis modifier");
   }
 }

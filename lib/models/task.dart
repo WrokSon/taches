@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class Task {
@@ -51,6 +52,38 @@ class Task {
       position: this.position,
     );
   }
+
+  // Méthode pour convertir une Task en Map
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'content': content,
+      'description': description,
+      'isPrio': isPrio,
+      'isFinish': isFinish,
+      'dateEnd': dateEnd?.toIso8601String(),
+      'dateEdit': dateEdit?.toIso8601String(),
+      'address': address,
+      'latitude': position?.latitude,
+      'longitude': position?.longitude,
+    };
+  }
+
+  // Méthode pour créer une Task à partir d'une Map
+  factory Task.fromMap(Map<String, dynamic> map) => Task(
+        id: map['id'],
+        content: map['content'],
+        description: map['description'],
+        isPrio: map['isPrio'] == 1,
+        isFinish: map['isFinish'] == 1,
+        dateEnd: map['dateEnd'] != null ? DateTime.parse(map['dateEnd']) : null,
+        dateEdit:
+            map['dateEdit'] != null ? DateTime.parse(map['dateEdit']) : null,
+        address: map['address'],
+        position: map['latitude'] != null && map['longitude'] != null
+            ? LatLng(map['latitude'], map['longitude'])
+            : null,
+      );
 
   // Méthode pour vérifier si la date n'est pas passée
   bool isDateNotPassed() {
