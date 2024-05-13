@@ -69,8 +69,14 @@ class _DetailPage extends State<DetailPage> {
             children: [
               Column(
                 children: [
-                  Text("${_tempActuelle?.toInt() ?? "_"}°C"),
-                  const Text("Actuelle"),
+                  Text(
+                    "${_tempActuelle?.toInt() ?? "_"}°C",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                  ),
+                  const Text(
+                    "Actuelle",
+                    style: TextStyle(fontSize: 20),
+                  ),
                 ],
               ),
               Row(
@@ -78,7 +84,10 @@ class _DetailPage extends State<DetailPage> {
                   Expanded(
                     child: Column(
                       children: [
-                        Text("${_tempMin?.toInt() ?? "_"}°C"),
+                        Text(
+                          "${_tempMin?.toInt() ?? "_"}°C",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
                         const Text("Min"),
                       ],
                     ),
@@ -86,7 +95,10 @@ class _DetailPage extends State<DetailPage> {
                   Expanded(
                     child: Column(
                       children: [
-                        Text("${_tempMax?.toInt() ?? "_"}°C"),
+                        Text(
+                          "${_tempMax?.toInt() ?? "_"}°C",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
                         const Text("Max"),
                       ],
                     ),
@@ -105,8 +117,8 @@ class _DetailPage extends State<DetailPage> {
                   child: CircularProgressIndicator(),
                 ),
                 errorWidget: (context, url, error) => const Icon(Icons.error),
-                width: 100,
-                height: 100,
+                width: 70,
+                height: 70,
                 fit: BoxFit.cover,
               ),
               Text(_tempDescription ?? ""),
@@ -163,10 +175,10 @@ class _DetailPage extends State<DetailPage> {
                   height: 250,
                   width: double.infinity,
                   child: GoogleMap(
-                    mapType: MapType.hybrid,
+                    mapType: MapType.normal,
                     initialCameraPosition: CameraPosition(
                       target: postion, // Coordonnées du centre de la carte
-                      zoom: 10.0, // Niveau de zoom initial
+                      zoom: 15.0, // Niveau de zoom initial
                     ),
                     markers: {
                       Marker(
