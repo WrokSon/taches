@@ -34,7 +34,7 @@ class _TaskListItem extends State<TaskListItem> {
       onDoubleTap: () {
         // Changement de l'état de la tâche lorsqu'on double-clique sur l'élément de liste
         setState(() {
-          _task.isFinish = true;
+          _task.isFinish = !_task.isFinish;
           notifier.editTask(_task);
         });
       },
