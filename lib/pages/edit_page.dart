@@ -1,6 +1,5 @@
 import 'package:date_field/date_field.dart';
 import 'package:flutter/material.dart';
-import 'package:latlong2/latlong.dart';
 import 'package:taches/models/task.dart';
 import 'package:taches/tools/services.dart';
 import 'package:taches/tools/task_notifier.dart';
@@ -71,7 +70,7 @@ class _EditPage extends State<EditPage> {
                               hintText: "Ex: Avoir plus de 16",
                             ),
                             validator: (value) {
-                              if (value == null || value.isEmpty) {
+                              if (value == null || value.trim().isEmpty) {
                                 return "Tu dois ercire une tache";
                               }
                               return null;
@@ -156,14 +155,19 @@ class _EditPage extends State<EditPage> {
                   onPressed: () async {
                     final addr = addrContentController.text;
                     final tempPostion = await checkAddress(addr);
-                    if (tempPostion == null) {
-                      isValideAddr = false;
+                    if (tempPostion != null) {
+                      setState(() {
+                        isValideAddr = true;
+                      });
                     }
                     if (_keyForm.currentState!.validate()) {
-                      _task.content = taskContentController.text;
-                      _task.address = addrContentController.text;
+                      _task.content = taskContentController.text.trim();
+                      _task.address = addrContentController.text.trim();
                       _task.dateEdit = DateTime.now();
-                      _task.description = descriptionController.text;
+                      _task.description =
+                          descriptionController.text.trim().isNotEmpty
+                              ? descriptionController.text.trim()
+                              : null;
                       _task.dateEnd = dateEnd;
                       _task.position = tempPostion;
                       notifier.editTask(_task);

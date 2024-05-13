@@ -4,3 +4,6 @@ Task(id,content,desc,isPrio,dateEnd,dateEdit,isFinish,Adress(number,typeStreet,n
 SharedPref
 - Mode-tri
 - pref tache fini
+
+
+clé api : AIzaSyAIJinBuERzfWLOUH97_-1DGelDlEhZyzg

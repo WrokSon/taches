@@ -1,6 +1,6 @@
 import 'dart:async';
-import 'package:geocoding/geocoding.dart';
-import 'package:latlong2/latlong.dart';
+import 'package:geocoder2/geocoder2.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 String dateToString(DateTime? date) {
   if (date == null) return "Pas de date limite";
@@ -10,15 +10,12 @@ String dateToString(DateTime? date) {
 Future<LatLng?> checkAddress(String? addr) async {
   if (addr == null || addr.isEmpty) return null;
   try {
-    // Géocodage de l'adresse
-    final List<Location> locations = await locationFromAddress(addr);
-    print("$addr : ${locations.length}");
-    // Vérification si des emplacements ont été trouvés
-    if (locations.isNotEmpty) {
-      final Location location = locations.first;
-      return LatLng(location.latitude, location.longitude);
-    }
-    return null;
+    GeoData data = await Geocoder2.getDataFromAddress(
+      address: addr,
+      googleMapApiKey: "AIzaSyAIJinBuERzfWLOUH97_-1DGelDlEhZyzg",
+    );
+    print('lat:${data.latitude} long:${data.longitude}');
+    return LatLng(data.latitude, data.longitude);
   } catch (e) {
     return null;
   }

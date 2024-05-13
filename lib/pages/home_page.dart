@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:taches/pages/edit_page.dart';
+import 'package:taches/models/shared_preference.dart';
+import 'package:taches/models/tri_enum.dart';
 import 'package:taches/tools/task_list_item.dart';
 import 'package:taches/tools/task_notifier.dart';
 
@@ -18,9 +19,9 @@ class HomePage extends StatefulWidget {
 class _HomePage extends State<HomePage> {
   final taskContentController = TextEditingController();
   final _keyForm = GlobalKey<FormState>();
+
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     taskContentController.dispose();
   }
@@ -41,6 +42,54 @@ class _HomePage extends State<HomePage> {
             margin: const EdgeInsets.all(10),
             child: Column(
               children: [
+                Row(
+                  children: [
+                    Expanded(
+                      child: Row(
+                        children: [
+                          Text("Masquer les taches fini : "),
+                          Checkbox(
+                            value: notifier.withOutComplete,
+                            onChanged: (value) {
+                              notifier.withOutComplete = value!;
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: Row(
+                        children: [
+                          Text("Tri : "),
+                          SizedBox(
+                            width: 200, // Ajout d'une largeur fixe au SizedBox
+                            child: DropdownButtonFormField<Tri>(
+                              items: const [
+                                DropdownMenuItem(
+                                  value: Tri.NORMAL,
+                                  child: Text("Normal"),
+                                ),
+                                DropdownMenuItem(
+                                  value: Tri.DATE,
+                                  child: Text("Date"),
+                                ),
+                              ],
+                              decoration: const InputDecoration(
+                                border: OutlineInputBorder(),
+                              ),
+                              value: notifier.currentTri,
+                              onChanged: (value) async {
+                                setState(() {
+                                  notifier.currentTri = value!;
+                                });
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
                 Expanded(
                   flex: 20,
                   child: ListView.builder(

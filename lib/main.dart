@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:taches/models/task.dart';
+import 'package:taches/pages/detail_page.dart';
 import 'package:taches/pages/edit_page.dart';
 import 'package:taches/pages/home_page.dart';
 
@@ -19,7 +21,11 @@ class MyApp extends StatelessWidget {
       case EditPage.nameRoute:
         return MaterialPageRoute(
             builder: (context) => EditPage(id: settings.arguments as String));
-      // page demander non existante
+      // vers la page les details
+      case DetailPage.nameRoute:
+        return MaterialPageRoute(
+            builder: (context) => DetailPage(task: settings.arguments as Task));
+      // page demandé non existante
       default:
         return MaterialPageRoute(
           builder: (context) => Scaffold(
