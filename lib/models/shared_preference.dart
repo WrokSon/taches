@@ -1,6 +1,7 @@
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:taches/models/tri_enum.dart';
 
+// SharedPreference s'occuppe d'enregistrer les preferences
 class SharedPreference {
   static const String SHOWISFINISH = "isFinishSP";
   static const String TRI = "tri";

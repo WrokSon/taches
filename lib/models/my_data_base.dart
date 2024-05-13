@@ -4,14 +4,16 @@ import 'package:taches/models/task.dart';
 
 class MyDataBase {
   static const _nameTableTasks = "tasks";
-  static Database? _database;
+  static Database? _database; // la base de donné
 
+  // getter pour recuperer la base de donnée
   Future<Database?> get database async {
     if (_database != null) return _database;
     _database = await initDB();
     return _database;
   }
 
+  // initio=alisation de la bas de donnée
   Future<Database?> initDB() async {
     return await openDatabase(
       join(await getDatabasesPath(), "tasks_database.db"),
@@ -23,6 +25,7 @@ class MyDataBase {
     );
   }
 
+  // inserer un element
   Future<void> insertTask(Task task) async {
     final Database? db = await database;
     await db?.insert(
@@ -32,6 +35,7 @@ class MyDataBase {
     );
   }
 
+  // suprimer un element
   Future<void> deleteTask(String id) async {
     final Database? db = await database;
     await db?.delete(
@@ -41,6 +45,7 @@ class MyDataBase {
     );
   }
 
+  // mettre a jour un element
   Future<void> updateTask(Task task) async {
     final Database? db = await database;
     await db?.update(
@@ -51,6 +56,7 @@ class MyDataBase {
     );
   }
 
+  // recuperer la liste des taches sauvés
   Future<List<Task>> tasks() async {
     final Database? db = await database;
     List<Map<String, Object?>>? maps = await db?.query(_nameTableTasks);

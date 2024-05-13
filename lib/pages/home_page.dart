@@ -5,31 +5,33 @@ import 'package:taches/tools/task_list_item.dart';
 import 'package:taches/tools/task_notifier.dart';
 
 class HomePage extends StatefulWidget {
-  // route vers cette page
+  // Route vers cette page
   static const String nameRoute = "/";
 
-  // constructeur de la page
-  const HomePage({super.key});
+  // Constructeur de la page
+  const HomePage({Key? key}) : super(key: key);
+
   @override
-  // creation de la page Home
+  // Création de l'état de la page d'accueil
   State<HomePage> createState() => _HomePage();
 }
 
-// gestion de la page Home
+// Gestion de la page d'accueil
 class _HomePage extends State<HomePage> {
-  final taskContentController = TextEditingController();
-  final _keyForm = GlobalKey<FormState>();
+  final taskContentController =
+      TextEditingController(); // Contrôleur de texte pour le champ de saisie de la tâche
+  final _keyForm = GlobalKey<FormState>(); // Clé pour le formulaire
 
   @override
   void dispose() {
     super.dispose();
+    // Libération des ressources du contrôleur de texte
     taskContentController.dispose();
   }
 
-  // constructuction de la page  de la page
   @override
   Widget build(BuildContext context) {
-    // TODO : recuperer le sharedPreference
+    // Instance du notifier pour gérer les tâches
     final notifier = TaskNotifier.instance;
     return Scaffold(
       appBar: AppBar(
@@ -37,151 +39,173 @@ class _HomePage extends State<HomePage> {
         centerTitle: true,
       ),
       body: FutureBuilder(
-        future: notifier.init(),
+        future: notifier
+            .init(), // Initialisation du notifier (chargement des tâches)
         builder: (context, snapshot) {
           if (snapshot.hasData) {
+            // Si les données sont disponibles
             return ListenableBuilder(
               listenable: notifier,
               builder: (context, child) => Container(
-                  margin: const EdgeInsets.all(10),
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          Expanded(
-                            child: SizedBox(
-                              width: double.infinity,
-                              height: 50,
-                              child: ElevatedButton(
-                                child: Text(
-                                  "Masquer les taches finis",
-                                  style: TextStyle(
-                                    fontSize: 11,
-                                    color: Colors.black,
-                                  ),
+                margin: const EdgeInsets.all(10),
+                child: Column(
+                  children: [
+                    // Bouton pour masquer les tâches terminées
+                    Row(
+                      children: [
+                        Expanded(
+                          child: SizedBox(
+                            width: double.infinity,
+                            height: 50,
+                            child: ElevatedButton(
+                              child: Text(
+                                "Masquer les taches finis",
+                                style: TextStyle(
+                                  fontSize: 11,
+                                  color: Colors.black,
                                 ),
-                                onPressed: () {
-                                  notifier.withOutComplete =
-                                      !notifier.withOutComplete;
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: notifier.withOutComplete
-                                      ? getSubtitleColor()
-                                      : getBackgroundColorButton(),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8.0),
-                                  ),
+                              ),
+                              onPressed: () {
+                                notifier.withOutComplete =
+                                    !notifier.withOutComplete;
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: notifier.withOutComplete
+                                    ? getSubtitleColor()
+                                    : getBackgroundColorButton(),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8.0),
                                 ),
                               ),
                             ),
                           ),
-                          SizedBox(width: 20),
-                          Expanded(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Text("Tri : "),
-                                SizedBox(
-                                  height: 60,
-                                  width:
-                                      110, // Ajout d'une largeur fixe au SizedBox
-                                  child: DropdownButtonFormField<Tri>(
-                                    items: const [
-                                      DropdownMenuItem(
-                                        value: Tri.NORMAL,
-                                        child: Text("Normal"),
-                                      ),
-                                      DropdownMenuItem(
-                                        value: Tri.DATE,
-                                        child: Text("Date"),
-                                      ),
-                                    ],
-                                    decoration: const InputDecoration(
-                                      border: OutlineInputBorder(),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderSide:
-                                            BorderSide(color: Colors.blue),
-                                      ),
+                        ),
+                        SizedBox(width: 20),
+                        // Étiquette pour le tri
+                        Expanded(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Text("Tri : "),
+                              SizedBox(
+                                height: 60,
+                                width: 110,
+                                child: DropdownButtonFormField<Tri>(
+                                  items: const [
+                                    // liste des options
+                                    DropdownMenuItem(
+                                      value: Tri.NORMAL,
+                                      child: Text("Normal"),
                                     ),
-                                    value: notifier.currentTri,
-                                    onChanged: (value) async {
-                                      setState(() {
-                                        notifier.currentTri = value!;
-                                      });
+                                    DropdownMenuItem(
+                                      value: Tri.DATE,
+                                      child: Text("Date"),
+                                    ),
+                                  ],
+                                  decoration: const InputDecoration(
+                                    border: OutlineInputBorder(),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Colors
+                                              .blue), // Couleur de la bordure du champ en cas de focus
+                                    ),
+                                  ),
+                                  value: notifier.currentTri,
+                                  onChanged: (value) async {
+                                    setState(() {
+                                      notifier.currentTri = value!;
+                                    });
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    // Liste des tâches
+                    Expanded(
+                      flex: 20,
+                      child: ListView.builder(
+                        itemBuilder: (context, index) => Dismissible(
+                          key: UniqueKey(),
+                          onDismissed: (direction) {
+                            notifier.removeTaskAt(notifier.tasks[index]
+                                .id); // Supprimer la tâche lorsqu'elle est balayée
+                          },
+                          background: Container(
+                              color: Colors
+                                  .red), // Fond rouge lors du balayage pour supprimer
+                          child: TaskListItem(
+                              task: notifier
+                                  .tasks[index]), // Élément de liste de tâche
+                        ),
+                        itemCount: notifier
+                            .tasks.length, // Nombre d'éléments dans la liste
+                      ),
+                    ),
+                    // Formulaire pour ajouter une nouvelle tâche
+                    Card(
+                      color: Colors.blue[100], // Couleur de fond de la carte
+                      child: Container(
+                        margin: EdgeInsets.all(10),
+                        child: Expanded(
+                          child: Form(
+                            key: _keyForm, // Clé du formulaire
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: TextFormField(
+                                    controller: taskContentController,
+                                    validator: (value) {
+                                      // Validation du champ de saisie
+                                      if (value == null ||
+                                          value.trim().isEmpty) {
+                                        return "Tu dois ercire une tache";
+                                      } else if (notifier.isIn(value.trim())) {
+                                        // Si la tâche est déjà dans la liste
+                                        return "tache déjà dans la liste";
+                                      }
+                                      return null;
                                     },
+                                    decoration: const InputDecoration(
+                                      hintText:
+                                          "Ajouter une nouvelle tache", // Texte d'aide pour le champ de saisie
+                                    ),
+                                  ),
+                                ),
+                                // Button d'ajout de tâche
+                                IconButton.filled(
+                                  onPressed: () {
+                                    if (_keyForm.currentState!.validate()) {
+                                      notifier.addTask(taskContentController
+                                          .text
+                                          .trim()); // Ajouter la tâche lorsque le formulaire est valide
+                                      taskContentController.text =
+                                          ""; // Effacer le champ de saisie après l'ajout de la tâche
+                                    }
+                                  },
+                                  icon: const Icon(Icons.add),
+                                  style: ButtonStyle(
+                                    backgroundColor: MaterialStateColor
+                                        .resolveWith((states) =>
+                                            getBackgroundColorButton()), // Couleur de fond du bouton
                                   ),
                                 ),
                               ],
                             ),
                           ),
-                        ],
-                      ),
-                      Expanded(
-                        flex: 20,
-                        child: ListView.builder(
-                          itemBuilder: (context, index) => Dismissible(
-                            key: UniqueKey(),
-                            onDismissed: (direction) {
-                              notifier.removeTaskAt(index);
-                            },
-                            background: Container(color: Colors.red),
-                            child: TaskListItem(task: notifier.tasks[index]),
-                          ),
-                          itemCount: notifier.tasks.length,
                         ),
                       ),
-                      Card(
-                        color: Colors.blue[100],
-                        child: Container(
-                          margin: EdgeInsets.all(10),
-                          child: Expanded(
-                            child: Form(
-                              key: _keyForm,
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: TextFormField(
-                                      controller: taskContentController,
-                                      validator: (value) {
-                                        if (value == null ||
-                                            value.trim().isEmpty) {
-                                          return "tache non valide";
-                                        } else if (notifier.isIn(value)) {
-                                          return "tache déjà dans la liste";
-                                        }
-                                        return null;
-                                      },
-                                      decoration: const InputDecoration(
-                                          hintText:
-                                              "Ajouter une nouvelle tache"),
-                                    ),
-                                  ),
-                                  IconButton.filled(
-                                    onPressed: () {
-                                      if (_keyForm.currentState!.validate()) {
-                                        notifier.addTask(
-                                            taskContentController.text.trim());
-                                        taskContentController.text = "";
-                                      }
-                                    },
-                                    icon: const Icon(Icons.add),
-                                    style: ButtonStyle(
-                                        backgroundColor: MaterialStateColor
-                                            .resolveWith((states) =>
-                                                getBackgroundColorButton())),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  )),
+                    ),
+                  ],
+                ),
+              ),
             );
           }
           return Center(
-            child: CircularProgressIndicator(),
+            child:
+                CircularProgressIndicator(), // Indicateur de chargement lors de l'initialisation
           );
         },
       ),

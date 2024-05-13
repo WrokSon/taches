@@ -15,6 +15,7 @@ class TaskNotifier with ChangeNotifier {
   static final TaskNotifier instance = TaskNotifier._();
   TaskNotifier._();
 
+  // recuperation des taches de la base de donnée
   Future<List<Task>> init() async {
     _tri = await _sharedPref.getTri();
     _withOutComplete = await _sharedPref.getShowIsFinish();
@@ -69,9 +70,9 @@ class TaskNotifier with ChangeNotifier {
   }
 
   // supprimer un element a la postion index et avertir les autres
-  void removeTaskAt(int index) {
-    _db.deleteTask(_tasks[index].id);
-    _tasks.removeAt(index);
+  void removeTaskAt(String id) {
+    _db.deleteTask(id);
+    _tasks.removeWhere((element) => element.id == id);
     notifyListeners();
   }
 
