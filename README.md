@@ -2,7 +2,7 @@
 
 une application Flutter qui permet la gestion d’une liste de tâches
 
-## Fonctionalité
+## Fonctionalités
 - Saisie simple d’une phrase, après validation de la saisie, la tâche se retrouve dans la liste.
 - Un clique sur la tâche permet de la proposer à la modification.
 - Possibilité d’ajouter une description et une date d’échéance ainsi qu’une adresse. Ces informations s’affichent qd on demande le détail d’une tâche. Pour l’adresse, une carte doit s’afficher et indiquer le lieu (voir l’exemple du cours). Sous la carte doit apparaitre deux ou trois informations météo du moment pour le lieu (au moins température min/actuelle/max et une image d’illustration de cette météo : soleil, nuage, pluie, …​ voir l’exemple du cours).
