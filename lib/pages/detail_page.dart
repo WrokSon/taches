@@ -143,8 +143,12 @@ class _DetailPage extends State<DetailPage> {
     return Scaffold(
       // Construction de l'interface utilisateur de la page de détail
       appBar: AppBar(
-        title: const Text("Detail"),
+        title: const Text(
+          "Detail",
+          style: TextStyle(color: Colors.white),
+        ),
         centerTitle: true,
+        backgroundColor: getBackgroundColor(),
       ),
       body: Container(
         margin: EdgeInsetsDirectional.symmetric(horizontal: 20),

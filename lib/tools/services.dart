@@ -25,6 +25,6 @@ Future<LatLng?> checkAddress(String? addr) async {
 }
 
 // pour les couleur en commun
-Color getBackgroundColorButton() => Colors.blue;
+Color getBackgroundColor() => Colors.blue;
 Color getTextColor() => Colors.black;
 Color? getSubtitleColor() => Colors.grey[500];

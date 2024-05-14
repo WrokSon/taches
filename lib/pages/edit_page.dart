@@ -60,8 +60,12 @@ class _EditPage extends State<EditPage> {
     // Affichage de la page d'édition
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Modifier"),
+        title: const Text(
+          "Modifier",
+          style: TextStyle(color: Colors.white),
+        ),
         centerTitle: true,
+        backgroundColor: getBackgroundColor(),
       ),
       body: Container(
         constraints: BoxConstraints.expand(),
@@ -91,7 +95,7 @@ class _EditPage extends State<EditPage> {
                                 ),
                                 border: OutlineInputBorder(),
                                 // Texte d'aide pour le champ de saisie
-                                hintText: "Ex: Aller en nager",
+                                hintText: "Ex: Aller nager",
                               ),
                               validator: (value) {
                                 // Validation du champ de saisie
@@ -122,7 +126,7 @@ class _EditPage extends State<EditPage> {
                                   borderSide: BorderSide(color: Colors.blue),
                                 ),
                                 border: OutlineInputBorder(),
-                                hintText: "Ex: 5 rue jde tours 45000 orléans",
+                                hintText: "Ex: 5 rue de tours 45000 orléans",
                               ),
                               controller: addrContentController,
                               validator: (value) {
@@ -187,7 +191,7 @@ class _EditPage extends State<EditPage> {
                                   borderSide: BorderSide(color: Colors.blue),
                                 ),
                                 border: OutlineInputBorder(),
-                                hintText: "laissé votre imagination",
+                                hintText: "Ajouter une description",
                               ),
                               controller: descriptionController,
                             ),
@@ -237,7 +241,7 @@ class _EditPage extends State<EditPage> {
                   ),
                   style: ElevatedButton.styleFrom(
                     backgroundColor:
-                        getBackgroundColorButton(), // Couleur de fond du bouton
+                        getBackgroundColor(), // Couleur de fond du bouton
                     shape: RoundedRectangleBorder(
                       borderRadius:
                           BorderRadius.circular(8.0), // Forme du bouton

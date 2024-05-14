@@ -35,8 +35,12 @@ class _HomePage extends State<HomePage> {
     final notifier = TaskNotifier.instance;
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Mes Taches"),
+        title: const Text(
+          "Mes Taches",
+          style: TextStyle(color: Colors.white),
+        ),
         centerTitle: true,
+        backgroundColor: getBackgroundColor(),
       ),
       body: FutureBuilder(
         future: notifier
@@ -72,7 +76,7 @@ class _HomePage extends State<HomePage> {
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: notifier.withOutComplete
                                     ? getSubtitleColor()
-                                    : getBackgroundColorButton(),
+                                    : getBackgroundColor(),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(8.0),
                                 ),
@@ -133,9 +137,23 @@ class _HomePage extends State<HomePage> {
                             notifier.removeTaskAt(notifier.tasks[index]
                                 .id); // Supprimer la tâche lorsqu'elle est balayée
                           },
+                          // Fond rouge lors du balayage pour supprimer
                           background: Container(
-                              color: Colors
-                                  .red), // Fond rouge lors du balayage pour supprimer
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Icon(
+                                    Icons.delete,
+                                    color: Colors.white,
+                                  ),
+                                  Icon(
+                                    Icons.delete,
+                                    color: Colors.white,
+                                  ),
+                                ],
+                              ),
+                              color: Colors.red),
                           child: TaskListItem(
                               task: notifier
                                   .tasks[index]), // Élément de liste de tâche
@@ -189,7 +207,7 @@ class _HomePage extends State<HomePage> {
                                   style: ButtonStyle(
                                     backgroundColor: MaterialStateColor
                                         .resolveWith((states) =>
-                                            getBackgroundColorButton()), // Couleur de fond du bouton
+                                            getBackgroundColor()), // Couleur de fond du bouton
                                   ),
                                 ),
                               ],
