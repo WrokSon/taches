@@ -1,4 +1,4 @@
-# taches
+# Taches
 
 une application Flutter qui permet la gestion d’une liste de tâches
 
