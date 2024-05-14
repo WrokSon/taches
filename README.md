@@ -34,8 +34,8 @@ une application Flutter qui permet la gestion d’une liste de tâches
 
 
 ## API utilisé
-- Google Maps ==> pour la carte
-- openweathermap ==> pour la meteo
+- Google Maps -> pour la carte
+- openweathermap --> pour la meteo
 - geocoder2 ==> pour recuperer le cordonnées et verifier une addresse
 
 ## Dependances
