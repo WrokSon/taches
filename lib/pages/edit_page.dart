@@ -99,9 +99,12 @@ class _EditPage extends State<EditPage> {
                               ),
                               validator: (value) {
                                 // Validation du champ de saisie
-                                if (value == null || value.trim().isEmpty) {
+                                final text = value!.trim();
+                                final task = notifier.taskByContent(text);
+                                if (text.isEmpty) {
                                   return "Tu dois ercire une tache";
-                                } else if (notifier.isIn(value.trim())) {
+                                } else if (task.id != _task.id &&
+                                    task.content != "") {
                                   // Si la tâche est déjà dans la liste
                                   return "tache déjà dans la liste";
                                 }

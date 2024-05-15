@@ -134,10 +134,11 @@ class _HomePage extends State<HomePage> {
                         itemBuilder: (context, index) => Dismissible(
                           key: UniqueKey(),
                           onDismissed: (direction) {
-                            notifier.removeTaskAt(notifier.tasks[index]
-                                .id); // Supprimer la tâche lorsqu'elle est balayée
+                            // Supprimer la tâche lorsqu'elle est balayée
+                            notifier.removeTaskById(notifier.tasks[index].id);
                           },
                           // Fond rouge lors du balayage pour supprimer
+                          // gauche -> doite
                           background: Container(
                               child: Row(
                                 mainAxisAlignment:
@@ -147,6 +148,17 @@ class _HomePage extends State<HomePage> {
                                     Icons.delete,
                                     color: Colors.white,
                                   ),
+                                  SizedBox(),
+                                ],
+                              ),
+                              color: Colors.red),
+                          // doite -> gauche
+                          secondaryBackground: Container(
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  SizedBox(),
                                   Icon(
                                     Icons.delete,
                                     color: Colors.white,
@@ -180,7 +192,10 @@ class _HomePage extends State<HomePage> {
                                       if (value == null ||
                                           value.trim().isEmpty) {
                                         return "Tu dois ercire une tache";
-                                      } else if (notifier.isIn(value.trim())) {
+                                      } else if (notifier
+                                              .taskByContent(value.trim())
+                                              .content ==
+                                          value.trim()) {
                                         // Si la tâche est déjà dans la liste
                                         return "tache déjà dans la liste";
                                       }

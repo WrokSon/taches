@@ -70,18 +70,16 @@ class TaskNotifier with ChangeNotifier {
   }
 
   // supprimer un element a la postion index et avertir les autres
-  void removeTaskAt(String id) {
+  void removeTaskById(String id) {
     _db.deleteTask(id);
     _tasks.removeWhere((element) => element.id == id);
     notifyListeners();
   }
 
   // varifier si une tache est dans la liste
-  bool isIn(String content) {
-    Task? task = tasks.firstWhere((element) => element.content == content,
+  Task taskByContent(String content) {
+    return tasks.firstWhere((element) => element.content == content,
         orElse: () => Task(id: '-1', content: ""));
-    if (task.content != "") return true;
-    return false;
   }
 
   // ajouter une tache

@@ -84,7 +84,6 @@ class _TaskListItem extends State<TaskListItem> {
                     _task.content,
                     style: TextStyle(
                       fontSize: 17,
-                      fontWeight: FontWeight.bold,
                       color: _task.isFinish ? getSubtitleColor() : Colors.black,
                     ),
                   ),
